@@ -1,7 +1,9 @@
 package pl.robak.softwarepartner.model.db;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -17,16 +19,16 @@ public class Attendance {
 
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
-    private Date entry_date;
+    private ZonedDateTime entry_date;
 
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
-    private Date exit_date;
+    private ZonedDateTime exit_date;
 
     public Attendance() {
     }
 
-    public Attendance(Long id, Child child, Date entry_date, Date exit_date) {
+    public Attendance(Long id, Child child, ZonedDateTime entry_date, ZonedDateTime exit_date) {
         this.id = id;
         this.child = child;
         this.entry_date = entry_date;
@@ -49,19 +51,19 @@ public class Attendance {
         this.child = child;
     }
 
-    public Date getEntry_date() {
+    public ZonedDateTime getEntry_date() {
         return entry_date;
     }
 
-    public void setEntry_date(Date entry_date) {
+    public void setEntry_date(ZonedDateTime entry_date) {
         this.entry_date = entry_date;
     }
 
-    public Date getExit_date() {
+    public ZonedDateTime getExit_date() {
         return exit_date;
     }
 
-    public void setExit_date(Date exit_date) {
+    public void setExit_date(ZonedDateTime exit_date) {
         this.exit_date = exit_date;
     }
 }
