@@ -1,9 +1,14 @@
 package pl.robak.softwarepartner.model.summary;
 
+import pl.robak.softwarepartner.model.db.Child;
+
 import java.math.BigDecimal;
-import java.util.List;
 
 public record ChildSummary(String firstName, String lastName, Summaries<AttendanceRecord> attendances) implements Summary {
+
+    public ChildSummary(Child child, Summaries<AttendanceRecord> attendances) {
+        this(child.getFirstname(), child.getLastname(), attendances);
+    }
 
     @Override
     public BigDecimal getPaymentTotal() {

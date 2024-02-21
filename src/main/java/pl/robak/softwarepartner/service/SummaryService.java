@@ -24,7 +24,7 @@ public class SummaryService {
         return LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth()).atTime(LocalTime.MAX).atZone(ZoneOffset.UTC);
     }
 
-    protected final Function<Attendance, AttendanceRecord> createAttendanceDto(BigDecimal schoolRate) {
+    protected final Function<Attendance, AttendanceRecord> createAttendanceRecord(BigDecimal schoolRate) {
         return a -> new AttendanceRecord(a, config.getFreeTimeStart(), config.getFreeTimeEnd(), schoolRate);
     }
 }

@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.robak.softwarepartner.model.summary.ParentSummary;
-import pl.robak.softwarepartner.model.summary.SchoolSummary;
 import pl.robak.softwarepartner.service.ParentSummaryService;
-import pl.robak.softwarepartner.service.SchoolSummaryService;
 
 @RestController
 @RequestMapping(path = "/parent")

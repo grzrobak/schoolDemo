@@ -1,10 +1,8 @@
 package pl.robak.softwarepartner.model.db;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 @Entity
 public class Attendance {

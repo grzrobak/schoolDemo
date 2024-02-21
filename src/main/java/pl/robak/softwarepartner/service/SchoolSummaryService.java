@@ -43,20 +43,22 @@ public class SchoolSummaryService extends SummaryService{
 
         ZonedDateTime startDate = findStartDate(year, month);
         ZonedDateTime endDate = findEndDate(year, month);
-        List<Attendance> attendances = attendanceRepository.findAllBetweenStartDateAndEndDateFilterBySchool(startDate, endDate, id);
 
-        Map<Child, List<Attendance>> childrenAttendances = attendances.stream().collect(Collectors.groupingBy(Attendance::getChild));
+        Map<Child, List<Attendance>> childrenAttendances = attendanceRepository.findAllBetweenStartDateAndEndDateFilterBySchool(startDate, endDate, id)
+                .stream()
+                .collect(Collectors.groupingBy(Attendance::getChild));
 
-        Map<Parent, List<Child>> parentChild = childrenAttendances.keySet().stream().collect(Collectors.groupingBy(Child::getParent));
+        Map<Parent, List<Child>> parentChild = childrenAttendances.keySet()
+                .stream()
+                .collect(Collectors.groupingBy(Child::getParent));
 
         Summaries<ParentSummary> parentSummaries = new Summaries<>(
                 parentChild.keySet().stream()
-                    .map(parent -> new ParentSummary(parent.getFirstname(), parent.getLastname(),
+                    .map(parent -> new ParentSummary(parent,
                             new Summaries<>(parentChild.get(parent).stream()
-                                .map(child -> new ChildSummary(child.getFirstname(), child.getLastname(),
-                                        new Summaries<>(attendances.stream()
-                                            .filter(a -> a.getChild().getId().equals(child.getId()))
-                                            .map(createAttendanceDto(school.getHour_price()))
+                                .map(child -> new ChildSummary(child,
+                                        new Summaries<>(childrenAttendances.get(child).stream()
+                                            .map(createAttendanceRecord(school.getHour_price()))
                                             .toList())))
                         .toList())))
                 .toList());
