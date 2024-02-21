@@ -3,6 +3,7 @@ package pl.robak.softwarepartner.model.summary;
 import pl.robak.softwarepartner.model.db.Attendance;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
@@ -48,7 +49,7 @@ public class AttendanceRecord implements Summary {
     }
 
     public BigDecimal getPaymentTotal() {
-        return schoolRate.multiply(BigDecimal.valueOf(getPaidTimeInHours()));
+        return schoolRate.multiply(BigDecimal.valueOf(getPaidTimeInHours())).setScale(2, RoundingMode.HALF_UP);
     }
 
 

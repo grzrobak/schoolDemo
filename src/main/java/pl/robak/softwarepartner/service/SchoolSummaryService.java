@@ -7,22 +7,21 @@ import pl.robak.softwarepartner.model.db.Attendance;
 import pl.robak.softwarepartner.model.db.Child;
 import pl.robak.softwarepartner.model.db.Parent;
 import pl.robak.softwarepartner.model.db.School;
-import pl.robak.softwarepartner.model.summary.*;
+import pl.robak.softwarepartner.model.summary.ChildSummary;
+import pl.robak.softwarepartner.model.summary.ParentSummary;
+import pl.robak.softwarepartner.model.summary.SchoolSummary;
+import pl.robak.softwarepartner.model.summary.Summaries;
 import pl.robak.softwarepartner.repository.AttendanceRepository;
 import pl.robak.softwarepartner.repository.SchoolRepository;
 import pl.robak.softwarepartner.rest.error.ResourceNotFoundException;
 
-import java.math.BigDecimal;
-import java.time.*;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class SchoolSummaryService {
-
-    private final Configuration config;
+public class SchoolSummaryService extends SummaryService{
 
     private final SchoolRepository schoolRepository;
 
@@ -30,7 +29,7 @@ public class SchoolSummaryService {
 
     @Autowired
     public SchoolSummaryService(Configuration config, SchoolRepository schoolRepository, AttendanceRepository attendanceRepository) {
-        this.config = config;
+        super(config);
         this.schoolRepository = schoolRepository;
         this.attendanceRepository = attendanceRepository;
     }
@@ -44,7 +43,7 @@ public class SchoolSummaryService {
 
         ZonedDateTime startDate = findStartDate(year, month);
         ZonedDateTime endDate = findEndDate(year, month);
-        List<Attendance> attendances = attendanceRepository.findAllBetween(startDate, endDate, id);
+        List<Attendance> attendances = attendanceRepository.findAllBetweenStartDateAndEndDateFilterBySchool(startDate, endDate, id);
 
         Map<Child, List<Attendance>> childrenAttendances = attendances.stream().collect(Collectors.groupingBy(Attendance::getChild));
 
@@ -63,18 +62,6 @@ public class SchoolSummaryService {
                 .toList());
 
         return new SchoolSummary(parentSummaries, school.getHour_price());
-    }
-
-    private Function<Attendance, AttendanceRecord> createAttendanceDto(BigDecimal schoolRate) {
-        return a -> new AttendanceRecord(a, config.getFreeTimeStart(), config.getFreeTimeEnd(), schoolRate);
-    }
-
-    private ZonedDateTime findStartDate(int year, int month) {
-        return LocalDate.of(year, month, 1).atStartOfDay().atZone(ZoneOffset.UTC);
-    }
-
-    private ZonedDateTime findEndDate(int year, int month) {
-        return LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth()).atTime(LocalTime.MAX).atZone(ZoneOffset.UTC);
     }
 
 }
