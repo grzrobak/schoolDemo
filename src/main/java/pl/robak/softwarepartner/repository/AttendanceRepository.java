@@ -14,6 +14,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     Attendance findById(long id);
 
-    @Query("SELECT a FROM Attendance a LEFT JOIN FETCH a.child c LEFT JOIN FETCH c.school s WHERE a.entry_date >= :startDate AND a.exit_date <= :endDate and s.id = :schoolId")
+    @Query("SELECT a FROM Attendance a LEFT JOIN FETCH a.child c LEFT JOIN FETCH c.school s LEFT JOIN FETCH c.parent p WHERE a.entry_date >= :startDate AND a.exit_date <= :endDate and s.id = :schoolId")
     List<Attendance> findAllBetween(@Param("startDate") ZonedDateTime startDate, @Param("endDate") ZonedDateTime endDate, @Param("schoolId") long schoolId);
 }

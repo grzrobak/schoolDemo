@@ -1,15 +1,23 @@
 package pl.robak.softwarepartner.model.summary;
 
-import pl.robak.softwarepartner.model.db.Attendance;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Collections;
+import java.math.BigDecimal;
 import java.util.List;
 
-public class SchoolSummary {
+public record SchoolSummary(List<ParentSummary> parents, BigDecimal hour_price) {
 
-    public final List<Attendance> attendances;
-
-    public SchoolSummary(List<Attendance> attendances) {
-        this.attendances = Collections.unmodifiableList(attendances);
+    @JsonProperty("total")
+    public BigDecimal total() {
+        return parents.stream()
+                .map(ParentSummary::getTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public int getPaidTimeInHours() {
+        return parents.stream()
+                .mapToInt(ParentSummary::getPaidTimeInHours)
+                .sum();
+    }
+
 }

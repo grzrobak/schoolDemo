@@ -1,6 +1,7 @@
 package pl.robak.softwarepartner.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +22,8 @@ public class SchoolRestController {
     }
 
     @GetMapping(value = "/{id}/{year}/{month}", produces = "application/json")
-    public SchoolSummary getSchoolSummary(@PathVariable Long id, @PathVariable int year, @PathVariable int month) {
-        return schoolSummaryService.createSchoolSummary(id,year, month);
+    public ResponseEntity<SchoolSummary> getSchoolSummary(@PathVariable Long id, @PathVariable int year, @PathVariable int month) {
+        return ResponseEntity.status(200).body(schoolSummaryService.createSchoolSummary(id,year, month));
     }
 
 }
