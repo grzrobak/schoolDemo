@@ -14,3 +14,4 @@ INSERT INTO Attendance (id, child_id, entry_date, exit_date) VALUES (2, 2, '2024
 INSERT INTO Attendance (id, child_id, entry_date, exit_date) VALUES (3, 3, '2024-01-03 08:30:00', '2024-01-03 11:05:00');
 INSERT INTO Attendance (id, child_id, entry_date, exit_date) VALUES (4, 3, '2024-01-03 05:30:00', '2024-01-03 07:05:00');
 INSERT INTO Attendance (id, child_id, entry_date, exit_date) VALUES (5, 4, '2024-01-02 06:59:00', '2024-01-02 14:01:00');
+INSERT INTO Attendance (id, child_id, entry_date, exit_date) VALUES (6, 4, '2024-02-02 08:45:00', '2024-02-02 17:31:00');

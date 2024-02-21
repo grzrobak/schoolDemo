@@ -1,19 +1,21 @@
 package pl.robak.softwarepartner.model.summary;
 
 import java.math.BigDecimal;
-import java.util.List;
 
-public record ParentSummary(String firstName, String lastName, List<ChildSummary> children) {
+public record ParentSummary(String firstName, String lastName, Summaries<ChildSummary> children) implements Summary {
 
-    public BigDecimal getTotal() {
-        return children.stream()
-                .map(ChildSummary::getTotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    @Override
+    public BigDecimal getPaymentTotal() {
+        return children.getPaymentTotal();
     }
 
+    @Override
     public int getPaidTimeInHours() {
-        return children.stream()
-                .mapToInt(ChildSummary::getPaidTimeInHours)
-                .sum();
+        return children.getPaidTimeInHours();
+    }
+
+    @Override
+    public int getTotalHours() {
+        return children.getTotalHours();
     }
 }

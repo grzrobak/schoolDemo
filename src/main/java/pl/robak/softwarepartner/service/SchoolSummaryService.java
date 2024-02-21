@@ -7,10 +7,7 @@ import pl.robak.softwarepartner.model.db.Attendance;
 import pl.robak.softwarepartner.model.db.Child;
 import pl.robak.softwarepartner.model.db.Parent;
 import pl.robak.softwarepartner.model.db.School;
-import pl.robak.softwarepartner.model.summary.AttendanceDTO;
-import pl.robak.softwarepartner.model.summary.ChildSummary;
-import pl.robak.softwarepartner.model.summary.ParentSummary;
-import pl.robak.softwarepartner.model.summary.SchoolSummary;
+import pl.robak.softwarepartner.model.summary.*;
 import pl.robak.softwarepartner.repository.AttendanceRepository;
 import pl.robak.softwarepartner.repository.SchoolRepository;
 import pl.robak.softwarepartner.rest.error.ResourceNotFoundException;
@@ -53,20 +50,23 @@ public class SchoolSummaryService {
 
         Map<Parent, List<Child>> parentChild = childrenAttendances.keySet().stream().collect(Collectors.groupingBy(Child::getParent));
 
-        List<ParentSummary> parentSummaries = parentChild.keySet().stream()
-                .map(parent -> new ParentSummary(parent.getFirstname(), parent.getLastname(), parentChild.get(parent).stream()
-                        .map(child -> new ChildSummary(child.getFirstname(), child.getLastname(), attendances.stream()
-                                .filter(a -> a.getChild().getId().equals(child.getId()))
-                                .map(createAttendanceDto(school.getHour_price()))
-                                .toList()))
-                        .toList()))
-                .toList();
+        Summaries<ParentSummary> parentSummaries = new Summaries<>(
+                parentChild.keySet().stream()
+                    .map(parent -> new ParentSummary(parent.getFirstname(), parent.getLastname(),
+                            new Summaries<>(parentChild.get(parent).stream()
+                                .map(child -> new ChildSummary(child.getFirstname(), child.getLastname(),
+                                        new Summaries<>(attendances.stream()
+                                            .filter(a -> a.getChild().getId().equals(child.getId()))
+                                            .map(createAttendanceDto(school.getHour_price()))
+                                            .toList())))
+                        .toList())))
+                .toList());
 
         return new SchoolSummary(parentSummaries, school.getHour_price());
     }
 
-    private Function<Attendance, AttendanceDTO> createAttendanceDto(BigDecimal schoolRate) {
-        return a -> new AttendanceDTO(a, config.getFreeTimeStart(), config.getFreeTimeEnd(), schoolRate);
+    private Function<Attendance, AttendanceRecord> createAttendanceDto(BigDecimal schoolRate) {
+        return a -> new AttendanceRecord(a, config.getFreeTimeStart(), config.getFreeTimeEnd(), schoolRate);
     }
 
     private ZonedDateTime findStartDate(int year, int month) {

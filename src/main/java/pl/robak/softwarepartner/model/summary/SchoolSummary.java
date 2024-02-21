@@ -1,23 +1,22 @@
 package pl.robak.softwarepartner.model.summary;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
-import java.util.List;
 
-public record SchoolSummary(List<ParentSummary> parents, BigDecimal hour_price) {
+public record SchoolSummary(Summaries<ParentSummary> parents, BigDecimal hour_price) implements Summary {
 
-    @JsonProperty("total")
-    public BigDecimal total() {
-        return parents.stream()
-                .map(ParentSummary::getTotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    @Override
+    public BigDecimal getPaymentTotal() {
+        return parents.getPaymentTotal();
     }
 
+    @Override
     public int getPaidTimeInHours() {
-        return parents.stream()
-                .mapToInt(ParentSummary::getPaidTimeInHours)
-                .sum();
+        return parents.getPaidTimeInHours();
+    }
+
+    @Override
+    public int getTotalHours() {
+        return parents.getTotalHours();
     }
 
 }
