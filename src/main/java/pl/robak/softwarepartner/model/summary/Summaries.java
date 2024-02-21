@@ -2,7 +2,6 @@ package pl.robak.softwarepartner.model.summary;
 
 import java.math.BigDecimal;
 import java.util.AbstractList;
-import java.util.Collections;
 import java.util.List;
 
 public class Summaries<T extends Summary> extends AbstractList<T> implements Summary {
@@ -10,7 +9,7 @@ public class Summaries<T extends Summary> extends AbstractList<T> implements Sum
     private final List<T> list;
 
     public Summaries(List<T> list) {
-        this.list = Collections.unmodifiableList(list);
+        this.list = list;
     }
 
     @Override

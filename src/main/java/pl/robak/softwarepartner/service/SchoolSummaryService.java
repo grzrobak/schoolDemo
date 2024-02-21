@@ -16,6 +16,7 @@ import pl.robak.softwarepartner.repository.SchoolRepository;
 import pl.robak.softwarepartner.rest.error.ResourceNotFoundException;
 
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,8 +60,11 @@ public class SchoolSummaryService extends SummaryService{
                                 .map(child -> new ChildSummary(child,
                                         new Summaries<>(childrenAttendances.get(child).stream()
                                             .map(createAttendanceRecord(school.getHour_price()))
+                                            .sorted(Comparator.comparing(a -> a.entry_date))
                                             .toList())))
+                        .sorted(Comparator.comparing(ChildSummary::firstName))
                         .toList())))
+                .sorted(Comparator.comparing(ParentSummary::lastName))
                 .toList());
 
         return new SchoolSummary(parentSummaries, school.getHour_price());

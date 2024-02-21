@@ -1,0 +1,41 @@
+{
+  "firstName": "Jan",
+  "lastName": "Kowalski",
+  "children": [
+    {
+      "firstName": "Brajan",
+      "lastName": "Kowalski",
+      "attendances": [
+        {
+          "entry_date": "2024-01-02T07:00:00+01:00",
+          "exit_date": "2024-01-02T15:00:00+01:00",
+          "paymentTotal": 25.50,
+          "paidTimeInHours": 3,
+          "totalHours": 8
+        }
+      ],
+      "paymentTotal": 25.50,
+      "paidTimeInHours": 3,
+      "totalHours": 8
+    },
+    {
+      "firstName": "Dżesika",
+      "lastName": "Kowalska",
+      "attendances": [
+        {
+          "entry_date": "2024-01-02T06:59:00+01:00",
+          "exit_date": "2024-01-02T12:01:00+01:00",
+          "paymentTotal": 8.50,
+          "paidTimeInHours": 1,
+          "totalHours": 7
+        }
+      ],
+      "paymentTotal": 8.50,
+      "paidTimeInHours": 1,
+      "totalHours": 7
+    }
+  ],
+  "paymentTotal": 34.00,
+  "paidTimeInHours": 4,
+  "totalHours": 15
+}

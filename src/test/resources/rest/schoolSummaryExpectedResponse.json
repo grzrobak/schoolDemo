@@ -1,0 +1,81 @@
+{
+  "parents": [
+    {
+      "firstName": "Jan",
+      "lastName": "Kowalski",
+      "children": [
+        {
+          "firstName": "Brajan",
+          "lastName": "Kowalski",
+          "attendances": [
+            {
+              "entry_date": "2024-01-02T07:00:00+01:00",
+              "exit_date": "2024-01-02T15:00:00+01:00",
+              "totalHours": 8,
+              "paymentTotal": 25.50,
+              "paidTimeInHours": 3
+            }
+          ],
+          "totalHours": 8,
+          "paymentTotal": 25.50,
+          "paidTimeInHours": 3
+        },
+        {
+          "firstName": "Dżesika",
+          "lastName": "Kowalska",
+          "attendances": [
+            {
+              "entry_date": "2024-01-02T06:59:00+01:00",
+              "exit_date": "2024-01-02T12:01:00+01:00",
+              "totalHours": 7,
+              "paymentTotal": 8.50,
+              "paidTimeInHours": 1
+            }
+          ],
+          "totalHours": 7,
+          "paymentTotal": 8.50,
+          "paidTimeInHours": 1
+        }
+      ],
+      "totalHours": 15,
+      "paymentTotal": 34.00,
+      "paidTimeInHours": 4
+    },
+    {
+      "firstName": "Maria",
+      "lastName": "Nowak",
+      "children": [
+        {
+          "firstName": "Jasio",
+          "lastName": "Nowak",
+          "attendances": [
+            {
+              "entry_date": "2024-01-03T05:30:00+01:00",
+              "exit_date": "2024-01-03T07:05:00+01:00",
+              "totalHours": 3,
+              "paymentTotal": 17.00,
+              "paidTimeInHours": 2
+            },
+            {
+              "entry_date": "2024-01-03T08:30:00+01:00",
+              "exit_date": "2024-01-03T11:05:00+01:00",
+              "totalHours": 4,
+              "paymentTotal": 0.00,
+              "paidTimeInHours": 0
+            }
+          ],
+          "totalHours": 7,
+          "paymentTotal": 17.00,
+          "paidTimeInHours": 2
+        }
+      ],
+      "totalHours": 7,
+      "paymentTotal": 17.00,
+      "paidTimeInHours": 2
+    }
+  ],
+  "hour_price": 8.50,
+  "totalHours": 22,
+  "paymentTotal": 51.00,
+  "paidTimeInHours": 6
+}
