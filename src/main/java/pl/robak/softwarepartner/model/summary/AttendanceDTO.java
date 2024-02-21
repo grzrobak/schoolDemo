@@ -38,10 +38,11 @@ public class AttendanceDTO {
     public int getPaidTimeInHours() {
         int entryHour = entry_date.getHour();
         int exitHour = exit_date.getHour();
-        int additionalHour = exit_date.getMinute() > 0 ? 1 : 0;
 
         int freeTimeStartHour = freeTimeStart.getHour();
         int freeTimeEndHour = freeTimeEnd.getHour();
+
+        int additionalHour = exit_date.getMinute() > 0 && exitHour > freeTimeEndHour ? 1 : 0;
 
         int paidHours = Math.max(freeTimeStartHour - entryHour, 0) + Math.max(exitHour - freeTimeEndHour, 0) + additionalHour;
         return Math.max(paidHours, 0);

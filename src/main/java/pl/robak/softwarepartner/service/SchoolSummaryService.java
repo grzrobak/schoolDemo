@@ -13,6 +13,7 @@ import pl.robak.softwarepartner.model.summary.ParentSummary;
 import pl.robak.softwarepartner.model.summary.SchoolSummary;
 import pl.robak.softwarepartner.repository.AttendanceRepository;
 import pl.robak.softwarepartner.repository.SchoolRepository;
+import pl.robak.softwarepartner.rest.error.ResourceNotFoundException;
 
 import java.math.BigDecimal;
 import java.time.*;
@@ -40,6 +41,10 @@ public class SchoolSummaryService {
     public SchoolSummary createSchoolSummary(long id, int year, int month) {
         School school = schoolRepository.findById(id);
 
+        if (school == null) {
+            throw new ResourceNotFoundException("School not found");
+        }
+
         ZonedDateTime startDate = findStartDate(year, month);
         ZonedDateTime endDate = findEndDate(year, month);
         List<Attendance> attendances = attendanceRepository.findAllBetween(startDate, endDate, id);
@@ -52,20 +57,15 @@ public class SchoolSummaryService {
                 .map(parent -> new ParentSummary(parent.getFirstname(), parent.getLastname(), parentChild.get(parent).stream()
                         .map(child -> new ChildSummary(child.getFirstname(), child.getLastname(), attendances.stream()
                                 .filter(a -> a.getChild().getId().equals(child.getId()))
-                                .map(createAttendaceDto(school.getHour_price()))
+                                .map(createAttendanceDto(school.getHour_price()))
                                 .toList()))
                         .toList()))
                 .toList();
 
-        int totalHours = attendances.stream()
-                .map(createAttendaceDto(school.getHour_price()))
-                .mapToInt(AttendanceDTO::getPaidTimeInHours)
-                .sum();
-
         return new SchoolSummary(parentSummaries, school.getHour_price());
     }
 
-    private Function<Attendance, AttendanceDTO> createAttendaceDto(BigDecimal schoolRate) {
+    private Function<Attendance, AttendanceDTO> createAttendanceDto(BigDecimal schoolRate) {
         return a -> new AttendanceDTO(a, config.getFreeTimeStart(), config.getFreeTimeEnd(), schoolRate);
     }
 
